@@ -44,7 +44,7 @@ app.factory('WebSQL', ['Quota', '$window', function(quota, $window) {
         var data = [
           file.name,
           file.size,
-          file.lastModifiedDate.getTime(),
+          file.lastModified,
           e.target.result
         ];
         db.transaction((function onTransactionCallback(transaction) {

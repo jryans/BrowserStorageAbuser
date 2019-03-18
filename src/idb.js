@@ -43,7 +43,7 @@ app.factory('IndexedDB', ['$window', function($window) {
         var data = {
           name: file.name,
           size: file.size,
-          date: file.lastModifiedDate.getTime(),
+          date: file.lastModified,
           payload: e.target.result
         };
         var transaction = db.transaction(['entries'], 'readwrite');

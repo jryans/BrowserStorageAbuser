@@ -37,7 +37,7 @@ var WebStorage = function(storage_name) {
         var data = {
           name:     file.name,
           size:     file.size,
-          date:     file.lastModifiedDate.getTime(),
+          date:     file.lastModified,
           payload:  e.target.result
         };
         save.bind(this)(data);

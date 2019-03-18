@@ -331,7 +331,7 @@ app.factory('IndexedDB', ['$window', function($window) {
         var data = {
           name: file.name,
           size: file.size,
-          date: file.lastModifiedDate.getTime(),
+          date: file.lastModified,
           payload: e.target.result
         };
         var transaction = db.transaction(['entries'], 'readwrite');
@@ -500,7 +500,7 @@ app.factory('WebSQL', ['Quota', '$window', function(quota, $window) {
         var data = [
           file.name,
           file.size,
-          file.lastModifiedDate.getTime(),
+          file.lastModified,
           e.target.result
         ];
         db.transaction((function onTransactionCallback(transaction) {
@@ -690,7 +690,7 @@ var WebStorage = function(storage_name) {
         var data = {
           name:     file.name,
           size:     file.size,
-          date:     file.lastModifiedDate.getTime(),
+          date:     file.lastModified,
           payload:  e.target.result
         };
         save.bind(this)(data);
