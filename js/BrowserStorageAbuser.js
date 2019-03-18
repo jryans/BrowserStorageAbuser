@@ -386,24 +386,26 @@ app.factory('IndexedDB', ['$window', function($window) {
       console.info('Indexed Database API not supported on this browser');
       return;
     }
-
-    var req = $window.indexedDB.open('BrowserStorageAbuser', version);
-    req.onsuccess = (function(e) {
-      db = e.target.result;
-      this.supported  = true;
-      this.getAll();
-    }).bind(this);
-    req.onerror = error.bind(this);
-    req.onupgradeneeded = (function requestOnUpgradeNeeded(e) {
-      db = e.target.result;
-      if (db.objectStoreNames.contains('entries')) {
-        db.deleteObjectStore('entries');
-      }
-      db.createObjectStore('entries', {autoIncrement: true});
-      console.info('upgraded IndexedDB');
-    }).bind(this);
+    this.init();
   };
   idb.prototype = {
+    init: function() {
+      var req = $window.indexedDB.open('BrowserStorageAbuser', version);
+      req.onsuccess = (function(e) {
+        db = e.target.result;
+        this.supported  = true;
+        this.getAll();
+      }).bind(this);
+      req.onerror = error.bind(this);
+      req.onupgradeneeded = (function requestOnUpgradeNeeded(e) {
+        db = e.target.result;
+        if (db.objectStoreNames.contains('entries')) {
+          db.deleteObjectStore('entries');
+        }
+        db.createObjectStore('entries', {autoIncrement: true});
+        console.info('upgraded IndexedDB');
+      }).bind(this);
+    },
     add: function(entry) {
       if (!this.supported) return;
       this.queue.push(entry);
@@ -469,7 +471,8 @@ app.factory('IndexedDB', ['$window', function($window) {
       req.onerror = error.bind(this);
     }
   };
-  return new idb();
+  var idb = window.idb = new idb();
+  return idb;
 }]);
 'use strict';
 
